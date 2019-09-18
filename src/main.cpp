@@ -1,4 +1,5 @@
 #include <math.h>
+#include <algorithm>
 #include <uWS/uWS.h>
 #include <iostream>
 #include <string>
@@ -59,7 +60,7 @@ int main() {
           double steer_value = pid.TotalError();
 
           // the steering value is [-1, 1]
-          steer_value = std::max<double>(std::min<double>(steer_value, 1.), -1.);
+          steer_value = std::max(std::min(steer_value, 1.), -1.);
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value 
