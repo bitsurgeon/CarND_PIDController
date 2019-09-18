@@ -39,7 +39,7 @@ class PID {
   double i_error;
   double d_error;
 
-  double d_error_pre; // d_error in previous step
+  double cte_pre; // cte in previous step
 
   /**
    * PID Coefficients
