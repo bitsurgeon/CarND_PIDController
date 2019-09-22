@@ -15,7 +15,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
     p_error = i_error = d_error = 0.0;
     cte_pre = 0.0;
 
-    // initial best error set artificially large
+    // initial tuning range
     dp[0] = dp_range * Kp;
     dp[1] = dp_range * Ki;
     dp[2] = dp_range * Kd;
@@ -23,6 +23,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
     dp_idx = 0;
     dp_inc = dp_dec = false;
 
+    // initial best error set artificially large
     best_err = std::numeric_limits<double>::max();
     acc_err = 0.0;
 
@@ -47,7 +48,7 @@ void PID::UpdateError(double cte, bool isTwiddle) {
         std::cout << "twiddle sum: " << dp_sum() << std::endl;
 
         if (dp_sum() > tol) {
-            acc_err += cte * cte;
+            acc_err += cte * cte;   // accumulate errors
             if (step_cnt == 0) {
                 doTwiddle();
             }
@@ -63,6 +64,8 @@ double PID::TotalError() const {
 void PID::doTwiddle() {
     std::cout << "    doTwiddle: " << dp_idx << std::endl;
     std::cout << "    dp_inc: " << dp_inc << " | dp_dec: " << dp_dec << std::endl;
+
+    // try to increase
     if (!dp_inc && !dp_dec) {
         twiddler(dp_idx, dp[dp_idx]);
         dp_inc = true;
@@ -70,10 +73,12 @@ void PID::doTwiddle() {
 
     if (dp_inc && !dp_dec) {
         if (acc_err < best_err) {
+            // new best error after increase
             best_err = acc_err;
             dp[dp_idx] *= scale_up;
             (++dp_idx) %= 3;
         } else {
+            // try to decrease
             twiddler(dp_idx, - 2 * dp[dp_idx]);
             dp_inc = false;
             dp_dec = true;
@@ -82,18 +87,22 @@ void PID::doTwiddle() {
 
     if (!dp_inc && dp_dec) {
         if (acc_err < best_err) {
+            // new best error after decrease
             best_err = acc_err;
             dp[dp_idx] *= scale_up;
         } else {
+            // revert to initial state
             twiddler(dp_idx, dp[dp_idx]);
             dp[dp_idx] *= scale_dn;
         }
 
+        // reset stage control for next coefficient
         dp_inc = dp_dec = false;
 
         (++dp_idx) %= 3;
     }
 
+    // reset accumulated error after each tuning step
     acc_err = 0.0;
 }
 
