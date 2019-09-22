@@ -53,24 +53,34 @@ class PID {
     unsigned dp_idx;
     const double dp_range = 0.2;
 
+    // twiddler stage control
     bool dp_inc;
     bool dp_dec;
 
+    // twiddle adjustment factors
     const double scale_up = 1.1;
     const double scale_dn = 0.9;
 
     double best_err;
     double acc_err;
 
+    // twiddle coefficients tuning interval
     unsigned step_cnt;
     const unsigned twiddle_steps = 20;
 
+    // turning target
     const double tol = 0.1; // steering
     // const double tol = 0.015; // throttle
 
     // helper functions
+
+    // core twiddle algorithm
     void doTwiddle();
+
+    // twiddle adjustment
     void twiddler(unsigned idx, double change);
+
+    // calculate current dp sum
     double dp_sum() const;
 };
 
