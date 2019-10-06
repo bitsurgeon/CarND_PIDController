@@ -74,7 +74,7 @@ There are two modes to run the application, training mode and racing mode.
 
 Here is a video recording to show how the PID controller perform in low speed situation.
 
-[![Watch the video](https://img.youtube.com/vi/l9n7nrzD8bo/mqdefault.jpg)](https://youtu.be/l9n7nrzD8bo)  
+[![Watch the video](https://img.youtube.com/vi/34LuQF-DiNw/mqdefault.jpg)](https://youtu.be/34LuQF-DiNw)  
 
 - Racing Mode
   - This mode is to apply the fine tuned hyper-parameters for high speed driving.
@@ -82,7 +82,7 @@ Here is a video recording to show how the PID controller perform in low speed si
 
 Here is a video recording to show how the PID controller perform in high speed situation.
 
-[![Watch the video](https://img.youtube.com/vi/34LuQF-DiNw/mqdefault.jpg)](https://youtu.be/34LuQF-DiNw)  
+[![Watch the video](https://img.youtube.com/vi/l9n7nrzD8bo/mqdefault.jpg)](https://youtu.be/l9n7nrzD8bo)  
 
 #### Extra Safety Features
 
